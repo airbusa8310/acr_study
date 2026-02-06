@@ -1,53 +1,83 @@
-# Docker Web 应用
+# Docker 静态网站
 
-这是一个简单的 Docker 化 Web 应用示例。
+这是一个使用 Nginx 的简单 Docker 化静态网站示例。
+
+## 前置要求
+
+在使用之前，请确保您的系统已安装 Docker：
+
+### macOS 安装 Docker Desktop
+
+1. 访问 [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+2. 下载并安装 Docker Desktop
+3. 启动 Docker Desktop 应用程序
+
+### 验证安装
+
+```bash
+docker --version
+docker run hello-world
+```
 
 ## 项目结构
 
 ```
 docker/
 ├── Dockerfile          # Docker 构建配置文件
-├── server.js          # Express 服务器主文件
-├── package.json       # Node.js 依赖配置
+├── index.html         # 静态网页文件
 ├── .dockerignore      # Docker 构建时忽略的文件
 └── README.md          # 项目说明文档
 ```
 
-## 构建镜像
+## 快速开始（推荐）
+
+直接运行自动化脚本：
 
 ```bash
-# 构建镜像（标签为 my-web-app:1.0）
-docker build -t my-web-app:1.0 .
-
-# 或者使用最新标签
-docker build -t my-web-app:latest .
+# 自动构建镜像并启动容器
+./build-and-run.sh
 ```
 
-## 运行容器
+脚本会自动检查 Docker 安装状态并完成所有步骤。
+
+## 手动操作
+
+如果您想手动执行每个步骤：
+
+### 构建镜像
 
 ```bash
-# 运行容器，将本地 3000 端口映射到容器的 3000 端口
-docker run -p 3000:3000 my-web-app:1.0
+# 构建镜像（标签为 my-static-site:1.0）
+docker build -t my-static-site:1.0 .
+
+# 或者使用最新标签
+docker build -t my-static-site:latest .
+```
+
+### 运行容器
+
+```bash
+# 运行容器，将本地 8080 端口映射到容器的 80 端口
+docker run -p 8080:80 my-static-site:1.0
 
 # 后台运行容器
-docker run -d -p 3000:3000 --name my-web-container my-web-app:1.0
+docker run -d -p 8080:80 --name my-static-container my-static-site:1.0
 
 # 查看运行中的容器
 docker ps
 
 # 停止容器
-docker stop my-web-container
+docker stop my-static-container
 
 # 删除容器
-docker rm my-web-container
+docker rm my-static-container
 ```
 
-## 访问应用
+## 访问网站
 
 构建并运行容器后，在浏览器中访问：
 
-- **主页**: http://localhost:3000
-- **健康检查**: http://localhost:3000/health
+- **网站地址**: http://localhost:8080
 
 ## Dockerfile 说明
 

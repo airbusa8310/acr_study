@@ -1,20 +1,10 @@
-# 使用 Node.js 官方镜像作为基础镜像
-FROM registry.cn-hangzhou.aliyuncs.com/google_containers/node:18-alpine
+# 使用 Nginx 官方镜像作为基础镜像
+FROM nginx:alpine
 
-# 设置工作目录
-WORKDIR /app
-
-# 复制 package.json 和 package-lock.json（如果存在）
-COPY package*.json ./
-
-# 安装依赖
-RUN npm install --production
-
-# 复制应用程序代码
-COPY . .
+# 复制静态文件到 Nginx 默认目录
+COPY index.html /usr/share/nginx/html/
 
 # 暴露端口
-EXPOSE 3000
+EXPOSE 80
 
-# 启动应用程序
-CMD ["node", "server.js"]
+# Nginx 默认会启动，不需要额外命令
